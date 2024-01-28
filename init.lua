@@ -38,6 +38,10 @@ I hope you enjoy your Neovim journey,
 P.S. You can delete this when you're done too. It's your config now :)
 --]]
 
+-- disable netrw at the very start of your init.lua
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
@@ -203,12 +207,12 @@ require('lazy').setup({
     'nvim-lualine/lualine.nvim',
     -- See `:help lualine.txt`
     opts = {
-      options = {
-        icons_enabled = false,
-        theme = 'onedark',
-        component_separators = '|',
-        section_separators = '',
-      },
+--[[       options = {
+        -- icons_enabled = false,
+        -- theme = 'onedark',
+        -- component_separators = '|',
+        -- section_separators = '',
+      }, ]]
     },
   },
 
@@ -252,13 +256,21 @@ require('lazy').setup({
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
     build = ':TSUpdate',
+    config = function ()
+      require('nvim-treesitter.configs').setup {
+        highlight = { enable = true },
+      }
+      local parsers = require 'nvim-treesitter.parsers'
+      local parser_config = parsers.get_parser_configs()
+      parser_config.racket.filetype_to_parsername = "plait"
+    end
   },
 
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
   -- require 'kickstart.plugins.autoformat',
-  -- require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.debug',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    You can use this folder to prevent any conflicts with this init.lua if you're interested in keeping
@@ -266,7 +278,7 @@ require('lazy').setup({
   --    Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
 }, {})
 
 -- [[ Setting options ]]
@@ -278,6 +290,7 @@ vim.o.hlsearch = false
 
 -- Make line numbers default
 vim.wo.number = true
+vim.wo.relativenumber = true
 
 -- Enable mouse mode
 vim.o.mouse = 'a'
@@ -416,7 +429,7 @@ vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc
 vim.keymap.set('n', '<leader>sG', ':LiveGrepGitRoot<cr>', { desc = '[S]earch by [G]rep on Git Root' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
-
+vim.keymap.set('n', '<leader>sk', require('telescope.builtin').keymaps, { desc = '[S]earch [K]eymaps' })
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
@@ -426,7 +439,7 @@ vim.defer_fn(function()
     ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
-    auto_install = false,
+    auto_install = true,
 
     highlight = { enable = true },
     indent = { enable = true },
@@ -582,7 +595,7 @@ local servers = {
 
 -- Setup neovim lua configuration
 require('neodev').setup()
-
+-- NOTE: Stopped reading here
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
@@ -659,3 +672,43 @@ cmp.setup {
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+
+-- Configs changed by me
+-- nvim-tree
+-- set termguicolors to enable highlight groups
+vim.opt.termguicolors = true
+
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 4
+
+vim.g.python3_host_prog = '/bin/python3'
+
+vim.keymap.set('i', '<C-J>', 'copilot#Accept("\\<CR>")', {
+  expr = true,
+  replace_keycodes = false
+})
+
+--[[ function zellij_sendline(zellij_session, line)
+  vim.fn.system("zellij --session " .. zellij_session .. " action write-chars $'" .. line .. "'")
+  vim.fn.system("zellij --session " .. zellij_session .. " action write 10")
+end ]]
+  
+
+vim.keymap.set("n", "<leader>rr", function()
+  vim.cmd('write')
+  local zellij_session = os.getenv('ZELLIJ_SESSION_NAME')
+  vim.fn.system('zellij --session ' .. zellij_session .. ' action move-focus down')
+  vim.fn.system('zellij --session ' .. zellij_session .. ' action write-chars \',exit\'')
+  vim.fn.system('zellij --session ' .. zellij_session .. ' action write 10')
+  vim.fn.system('zellij --session ' .. zellij_session .. ' action write-chars clear')
+  vim.fn.system('zellij --session ' .. zellij_session .. ' action write 10')
+  vim.fn.system("\\zellij --session " .. zellij_session .. " action write-chars $'racket -ie \\'(enter! (file \"" .. vim.fn.expand('%:p') .. "\"))\\'\n'")
+  -- zellij_sendline(zellij_session, ',exit')
+  -- zellij_sendline(zellij_session, 'clear')
+  -- zellij_sendline(zellij_session, 'racket -ie \'(enter! (file "' .. vim.fn.expand('%:p') .. '"))\'')
+end, { desc = "[R]un [R]acket File" })
+
+vim.g.copilot_no_tab_map = true
+
+require 'lspconfig'.racket_langserver.setup {}
+
