@@ -712,3 +712,5 @@ vim.g.copilot_no_tab_map = true
 
 require 'lspconfig'.racket_langserver.setup {}
 
+-- Source all files in the plugins directory
+vim.api.nvim_exec2([[runtime! plugins/*.vim]], {})
