@@ -279,6 +279,12 @@ require('lazy').setup({
   --
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
   { import = 'custom.plugins' },
+  -- Lazy load ocaml plugin
+  {
+    dir = 'vimscript/ocaml.vim',
+    ft = 'ocaml',
+    lazy = true,
+  },
 }, {})
 
 -- [[ Setting options ]]
@@ -692,25 +698,49 @@ vim.keymap.set('i', '<C-J>', 'copilot#Accept("\\<CR>")', {
   vim.fn.system("zellij --session " .. zellij_session .. " action write-chars $'" .. line .. "'")
   vim.fn.system("zellij --session " .. zellij_session .. " action write 10")
 end ]]
-  
+
 
 vim.keymap.set("n", "<leader>rr", function()
   vim.cmd('write')
   local zellij_session = os.getenv('ZELLIJ_SESSION_NAME')
-  vim.fn.system('zellij --session ' .. zellij_session .. ' action move-focus down')
-  vim.fn.system('zellij --session ' .. zellij_session .. ' action write-chars \',exit\'')
-  vim.fn.system('zellij --session ' .. zellij_session .. ' action write 10')
-  vim.fn.system('zellij --session ' .. zellij_session .. ' action write-chars clear')
-  vim.fn.system('zellij --session ' .. zellij_session .. ' action write 10')
-  vim.fn.system("\\zellij --session " .. zellij_session .. " action write-chars $'racket -ie \\'(enter! (file \"" .. vim.fn.expand('%:p') .. "\"))\\'\n'")
-  -- zellij_sendline(zellij_session, ',exit')
-  -- zellij_sendline(zellij_session, 'clear')
-  -- zellij_sendline(zellij_session, 'racket -ie \'(enter! (file "' .. vim.fn.expand('%:p') .. '"))\'')
-end, { desc = "[R]un [R]acket File" })
+  if vim.bo.filetype == 'racket' then
+    vim.fn.system('zellij --session ' .. zellij_session .. ' action move-focus down')
+    vim.fn.system('zellij --session ' .. zellij_session .. ' action write-chars \',exit\'')
+    vim.fn.system('zellij --session ' .. zellij_session .. ' action write 10')
+    vim.fn.system('zellij --session ' .. zellij_session .. ' action write-chars clear')
+    vim.fn.system('zellij --session ' .. zellij_session .. ' action write 10')
+    vim.fn.system("\\zellij --session " .. zellij_session .. " action write-chars $'racket -ie \\'(enter! (file \"" .. vim.fn.expand('%:p') .. "\"))\\'\n'")
+    -- zellij_sendline(zellij_session, ',exit')
+    -- zellij_sendline(zellij_session, 'clear')
+    -- zellij_sendline(zellij_session, 'racket -ie \'(enter! (file "' .. vim.fn.expand('%:p') .. '"))\'')
+  elseif vim.bo.filetype == 'ocaml' then
+    vim.fn.system('zellij --session ' .. zellij_session .. ' action move-focus down')
+    vim.fn.system('zellij --session ' .. zellij_session .. " action write-chars '#quit;;\n'")
+    vim.fn.system('zellij --session ' .. zellij_session .. " action write-chars 'clear\n'")
+    vim.fn.system('zellij --session ' .. zellij_session .. " action write-chars 'utop -init " .. vim.fn.expand('%:p') .. "\n'")
+  else
+    print('Unsupported filetype')
+  end
+end, { desc = "[R]un [R]EPL" })
+
+vim.keymap.set("n", "<leader>rt", function()
+  local zellij_session = os.getenv('ZELLIJ_SESSION_NAME')
+  -- If the filetype is racket
+  if vim.bo.filetype == 'racket' then
+    -- Run the racket tests
+    vim.fn.system('zellij --session ' .. zellij_session .. ' action move-focus down')
+    vim.fn.system('zellij --session ' .. zellij_session .. ' action write-chars ,exit')
+    vim.fn.system('zellij --session ' .. zellij_session .. ' action write 10')
+    vim.fn.system('zellij --session ' .. zellij_session .. ' action write-chars clear')
+    vim.fn.system('zellij --session ' .. zellij_session .. ' action write 10')
+    vim.fn.system("zellij --session " .. zellij_session .. " action write-chars 'raco test " .. vim.fn.expand('%:p') .. "'")
+    vim.fn.system('zellij --session ' .. zellij_session .. ' action write 10')
+  else
+    print('Unsupported filetype')
+  end
+end, { desc = "[R]un [T]est" })
 
 vim.g.copilot_no_tab_map = true
 
 require 'lspconfig'.racket_langserver.setup {}
 
--- Source all files in the plugins directory
-vim.api.nvim_exec2([[runtime! plugins/*.vim]], {})
