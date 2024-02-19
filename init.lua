@@ -724,6 +724,7 @@ vim.keymap.set("n", "<leader>rr", function()
 end, { desc = "[R]un [R]EPL" })
 
 vim.keymap.set("n", "<leader>rt", function()
+  vim.cmd('write')
   local zellij_session = os.getenv('ZELLIJ_SESSION_NAME')
   -- If the filetype is racket
   if vim.bo.filetype == 'racket' then
