@@ -48,4 +48,38 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- Select the last pasted text
+vim.keymap.set('n', 'gp', '`[v`]', { desc = 'Select the last pasted text' })
+
+vim.keymap.set('n', '<leader>rr', function()
+  vim.cmd 'write'
+  if vim.bo.filetype == 'racket' then
+    vim.fn.system "tmux send-keys -t {last} ',exit' Enter"
+    vim.fn.system 'tmux send-keys -t {last} C-l'
+    vim.fn.system("\\tmux send-keys -t {last} $'racket -i -e \\'(enter! (file \"" .. vim.fn.expand '%:p' .. "\"))\\'' Enter")
+    vim.fn.system 'tmux select-pane -t {last}'
+  elseif vim.bo.filetype == 'ocaml' then
+    vim.fn.system "tmux send-keys -t {last} '#quit;;' Enter"
+    vim.fn.system 'tmux send-keys -t {last} C-l'
+    vim.fn.system("tmux send-keys -t {last} 'utop -init " .. vim.fn.expand '%:p' .. "' Enter")
+    vim.fn.system 'tmux select-pane -t {last}'
+  else
+    print 'Unsupported filetype'
+  end
+end, { desc = '[R]un [R]EPL' })
+
+vim.keymap.set('n', '<leader>rt', function()
+  vim.cmd 'write'
+  -- If the filetype is racket
+  if vim.bo.filetype == 'racket' then
+    -- Run the racket tests
+    vim.fn.system "tmux send-keys -t {last} ',exit' Enter"
+    vim.fn.system 'tmux send-keys -t {last} C-l'
+    vim.fn.system("tmux send-keys -t {last} 'raco test " .. vim.fn.expand '%:p' .. "' Enter")
+    vim.fn.system 'tmux select-pane -t {last}'
+  else
+    print 'Unsupported filetype'
+  end
+end, { desc = '[R]un [T]est' })
+
 -- vim: ts=2 sts=2 sw=2 et

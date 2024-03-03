@@ -7,7 +7,7 @@
 vim.opt.number = true
 -- You can also add relative line numbers, for help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -55,5 +55,11 @@ vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
+
+-- set termguicolors to enable highlight groups
+vim.opt.termguicolors = true
+
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 4
 
 -- vim: ts=2 sts=2 sw=2 et
