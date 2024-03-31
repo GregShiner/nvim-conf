@@ -12,7 +12,9 @@ return {
       { 'j-hui/fidget.nvim', opts = {} },
     },
     config = function()
-      require('lspconfig').racket_langserver.setup {}
+      require('lspconfig').racket_langserver.setup {
+        cmd = { 'xvfb-run', 'racket', '--lib', 'racket-langserver' },
+      }
       -- Brief Aside: **What is LSP?**
       --
       -- LSP is an acronym you've probably heard, but might not understand what it is.
