@@ -1,5 +1,5 @@
 return {
-  'Vigemus/iron.nvim',
+  dir = '~/Desktop/iron.nvim/',
   config = function()
     local iron = require 'iron.core'
     iron.setup {
