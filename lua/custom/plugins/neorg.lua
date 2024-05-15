@@ -1,5 +1,5 @@
 return {
-  'nvim-neorg/neorg',
+  --[[ 'nvim-neorg/neorg',
   dependencies = { 'nvim-lua/plenary.nvim' },
   build = ':Neorg sync-parsers',
   -- tag = "*",
@@ -21,5 +21,5 @@ return {
         },
       },
     }
-  end,
+  end, ]]
 }
