@@ -82,4 +82,6 @@ vim.keymap.set('n', '<leader>rt', function()
   end
 end, { desc = '[R]un [T]est' })
 
+require 'quarto_keymaps'
+
 -- vim: ts=2 sts=2 sw=2 et

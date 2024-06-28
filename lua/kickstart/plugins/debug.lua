@@ -23,7 +23,7 @@ return {
 
     -- Add your own debuggers here
     -- 'leoluz/nvim-dap-go',
-    'mrcjkb/rustaceanvim',
+    -- 'mrcjkb/rustaceanvim',
   },
   config = function()
     local dap = require 'dap'
