@@ -65,4 +65,8 @@ vim.opt.termguicolors = true
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 4
 
+vim.o.exrc = true
+vim.o.secure = true
+
+vim.g.python3_host_prog = '/home/greg/.config/nvim/python/bin/python'
 -- vim: ts=2 sts=2 sw=2 et
