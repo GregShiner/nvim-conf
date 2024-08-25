@@ -16,6 +16,7 @@ return {
         write_to_disk = false,
       },
       handle_leading_whitespace = true,
+      autoformat = false,
     },
   },
 

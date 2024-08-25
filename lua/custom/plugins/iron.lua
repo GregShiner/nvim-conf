@@ -23,7 +23,7 @@ return {
       keymaps = {
         send_motion = '<space>sc',
         visual_send = '<space>sc',
-        send_file = '<space>sf',
+        -- send_file = '<space>sf',
         send_line = '<space>sl',
         send_until_cursor = '<space>su',
         send_mark = '<space>sm',

@@ -1,8 +1,9 @@
 return {
-  --[[ 'nvim-neorg/neorg',
+  'nvim-neorg/neorg',
   dependencies = { 'nvim-lua/plenary.nvim' },
   build = ':Neorg sync-parsers',
   -- tag = "*",
+  version = '*',
   lazy = true, -- enable lazy load
   ft = 'norg', -- lazy load on file type
   cmd = 'Neorg', -- lazy load on command
@@ -15,11 +16,10 @@ return {
           config = {
             workspaces = {
               notes = '~/notes',
-              cmpsc460 = '~/Desktop/cmpsc/460/notes',
             },
           },
         },
       },
     }
-  end, ]]
+  end,
 }

@@ -138,6 +138,8 @@ return {
       vim.g.molten_image_provider = 'image.nvim'
       vim.g.molten_output_win_max_height = 20
       vim.g.molten_auto_open_output = false
+      vim.g.molten_virt_text_output = true
+      vim.g.molten_enter_output_behavior = 'open_and_enter'
     end,
     setup = function() end,
     keys = {
@@ -149,6 +151,8 @@ return {
         desc = 'molten eval visual',
       },
       { '<leader>mr', ':MoltenReevaluateCell<cr>', desc = 'molten re-eval cell' },
+      { '<leader>mo', ':noautocmd MoltenEnterOutput<cr>', desc = 'molten open output' },
+      { '<M-cr>', ':QuartoSend<cr>/```{<cr>j<esc><esc>', desc = 'molten exec cell and jump to next' },
     },
   },
 

@@ -82,6 +82,15 @@ vim.keymap.set('n', '<leader>rt', function()
   end
 end, { desc = '[R]un [T]est' })
 
+vim.keymap.set('n', '<leader>O', function()
+  local oil = require 'oil'
+  oil.open_float()
+  oil.open_preview()
+end, { desc = 'Open [O]il' })
+
+vim.keymap.set('n', '<leader><C-o>', '<cmd>Portal jumplist backward<cr>')
+vim.keymap.set('n', '<leader><C-i>', '<cmd>Portal jumplist forward<cr>')
+
 require 'quarto_keymaps'
 
 -- vim: ts=2 sts=2 sw=2 et
