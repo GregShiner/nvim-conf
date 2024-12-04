@@ -7,3 +7,4 @@ kaleido
 pyperclip
 nbformat
 pillow
+debugpy
