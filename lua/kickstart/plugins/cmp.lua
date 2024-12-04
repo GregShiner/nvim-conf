@@ -78,7 +78,7 @@ return {
           ['<CR>'] = cmp.mapping.confirm { select = true },
 
           -- Cancel ([n]o) the completion.
-          ['<C-e>'] = cmp.mapping.close(),
+          ['<C-n>'] = cmp.mapping.close(),
 
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
@@ -93,14 +93,12 @@ return {
           --
           -- <c-l> will move you to the right of each of the expansion locations.
           -- <c-h> is similar, except moving you backwards.
-          -- ['<C-l>'] = cmp.mapping(function()
-          ['<C-n>'] = cmp.mapping(function()
+          ['<C-l>'] = cmp.mapping(function()
             if luasnip.expand_or_locally_jumpable() then
               luasnip.expand_or_jump()
             end
           end, { 'i', 's' }),
-          -- ['<C-h>'] = cmp.mapping(function()
-          ['<C-p>'] = cmp.mapping(function()
+          ['<C-h>'] = cmp.mapping(function()
             if luasnip.locally_jumpable(-1) then
               luasnip.jump(-1)
             end

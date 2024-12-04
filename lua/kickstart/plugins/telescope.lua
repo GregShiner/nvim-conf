@@ -94,7 +94,7 @@ return {
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
       vim.keymap.set('n', '<leader>sk', require('telescope.builtin').keymaps, { desc = '[S]earch [K]eymaps' })
       -- vim.keymap.set("n", "<space>fb", ":Telescope file_browser<CR>")
-      vim.keymap.set('n', '<space>fb', require('telescope').extensions.file_browser.file_browser, { desc = '[f]ile [b]rowser' })
+      vim.keymap.set('n', '<space>sb', require('telescope').extensions.file_browser.file_browser, { desc = 'file [b]rowser' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
