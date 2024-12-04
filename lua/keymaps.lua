@@ -82,6 +82,17 @@ vim.keymap.set('n', '<leader>rt', function()
   end
 end, { desc = '[R]un [T]est' })
 
+vim.keymap.set('n', '<leader>rm', function()
+  vim.cmd 'write'
+  if vim.bo.filetype == 'matlab' then
+    -- matlab -nodisplay -nosplash -nodesktop -r "run('./parallel.m')"
+    -- vim.fn.system("tmux send-keys -t {last} 'matlab -nodisplay -nosplash -nodesktop -r \"run('./" .. vim.fn.expand '%:p' .. '\')"')
+    print("tmux send-keys -t {last} 'matlab -nodisplay -nosplash -nodesktop -r \"run('" .. vim.fn.expand '%:p' .. "')\"'")
+  else
+    print 'Unsupported filetype'
+  end
+end, { desc = '[R]un [M]atlab' })
+
 vim.keymap.set('n', '<leader>O', function()
   local oil = require 'oil'
   oil.open_float()
