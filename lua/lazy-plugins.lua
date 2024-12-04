@@ -26,7 +26,22 @@ require('lazy').setup({
   --    require('Comment').setup({})
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim', opts = {} },
+  {
+    'numToStr/Comment.nvim',
+    opts = {},
+    config = function()
+      require('Comment').setup()
+      -- vim.keymap.del('n', 'gc')
+      -- vim.keymap.del('n', 'gb')
+      local wk = require 'which-key'
+      wk.add {
+        { 'gb', group = 'Comment toggle blockwise' },
+        { 'gb_', hidden = true },
+        { 'gc', group = 'Comment toggle linewise' },
+        { 'gc_', hidden = true },
+      }
+    end,
+  },
 
   -- modular approach: using `require 'path/name'` will
   -- include a plugin definition from file lua/path/name.lua

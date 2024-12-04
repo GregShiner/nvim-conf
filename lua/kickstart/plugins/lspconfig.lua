@@ -186,6 +186,34 @@ return {
             },
           },
         },
+        --[[ pyright = {
+          settings = {
+            python = {
+              analysis = {
+                reportOptionalSubscript = 'warning',
+                reportOptionalMemberAccess = 'warning',
+                reportOptionalCall = 'warning',
+                reportOptionalIterable = 'warning',
+              },
+            },
+          },
+        }, ]]
+        basedpyright = {
+          enabled = true,
+          settings = {
+            basedpyright = {
+              analysis = {
+                typeCheckingMode = 'basic',
+                diagnosticSeverityOverrides = {
+                  reportOptionalSubscript = 'warning',
+                  reportOptionalMemberAccess = 'warning',
+                  reportOptionalCall = 'warning',
+                  reportOptionalIterable = 'warning',
+                },
+              },
+            },
+          },
+        },
       }
 
       -- Ensure the servers and tools above are installed

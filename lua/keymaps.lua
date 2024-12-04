@@ -88,11 +88,11 @@ vim.keymap.set('n', '<leader>O', function()
   oil.open_preview()
 end, { desc = 'Open [O]il' })
 
+vim.keymap.set('n', '<leader>L', '<cmd>LazyGit<cr>')
+
 vim.keymap.set('n', '<leader><C-o>', '<cmd>Portal jumplist backward<cr>')
 vim.keymap.set('n', '<leader><C-i>', '<cmd>Portal jumplist forward<cr>')
 
 vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
-
-require 'quarto_keymaps'
 
 -- vim: ts=2 sts=2 sw=2 et
