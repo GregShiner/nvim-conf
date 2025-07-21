@@ -40,6 +40,15 @@ return {
       require('lspconfig').racket_langserver.setup {
         cmd = { 'xvfb-run', 'racket', '--lib', 'racket-langserver' },
       }
+      require('lspconfig').yamlls.setup {
+        settings = {
+          yaml = {
+            schemas = {
+              ['https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.0/schema.yaml'] = '/openapi.yaml',
+            },
+          },
+        },
+      }
       -- Brief aside: **What is LSP?**
       --
       -- LSP is an initialism you've probably heard, but might not understand what it is.
