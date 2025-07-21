@@ -13,10 +13,13 @@ return {
             -- returns a table (see below)
             command = { 'zsh' },
           },
+          ocaml = {
+            command = { 'dune', 'utop', '.' },
+          },
         },
         -- How the repl window will be displayed
         -- See below for more information
-        repl_open_cmd = require('iron.view').split.vertical.botright(0.3),
+        repl_open_cmd = require('iron.view').split.vertical.botright(0.5),
       },
       -- Iron doesn't set keymaps by default anymore.
       -- You can set them here or manually add keymaps to the functions in iron.core
